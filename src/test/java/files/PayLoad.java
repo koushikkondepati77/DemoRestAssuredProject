@@ -21,5 +21,27 @@ public class PayLoad {
                 "}";
     }
 
+    public static String AddBook(String isbn,String aisle){
+
+        String payLoad = "{\n" +
+                "\"name\":\"Learn Appium Automation with Java\",\n" +
+                "\"isbn\":\""+isbn+"\",\n" +
+                "\"aisle\":\""+aisle+"\",\n" +
+                "\"author\":\"John foe\"\n" +
+                "}";
+
+        return payLoad;
+    }
+
+    public static String DeleteBook(String isbn, String aisle){
+        String payLoad = "{\n" +
+                " \n" +
+                "\"ID\" : \""+isbn+""+aisle+"\"\n" +
+                " \n" +
+                "}";
+
+        return payLoad;
+    }
+
 
 }
