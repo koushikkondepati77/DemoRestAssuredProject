@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.*;
 
-public class DynamicJson {
+public class LibraryApi {
 
     @Test(dataProvider = "BooksData") //AddBook
     public void addBook(String isbn,String aisle){
