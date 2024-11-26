@@ -1,6 +1,13 @@
 package org.example;
 
 import io.restassured.path.json.JsonPath;
+import org.testng.Assert;
+import pojo.GetCourse;
+import pojo.WebAutomation;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static io.restassured.RestAssured.*;
 
@@ -15,15 +22,31 @@ public class OAuthTest {
                 .when().log().all()
                 .post("https://rahulshettyacademy.com/oauthapi/oauth2/resourceOwner/token").asString();
 
-        JsonPath js = new JsonPath(response);
-        String accessToken = js.getString("access_token");
+        JsonPath jsonPath = new JsonPath(response);
+        String accessToken = jsonPath.getString("access_token");
 
-        //System.out.println(response);
+        System.out.println(accessToken);
 
-        String actualResponse = given().queryParam("access_token",""+accessToken+"")
-                .when().log().all().get("https://rahulshettyacademy.com/oauthapi/getCourseDetails").asString();
+        GetCourse gc = given().queryParam("access_token",accessToken)
+                .when().log().all().get("https://rahulshettyacademy.com/oauthapi/getCourseDetails").as(GetCourse.class);
 
-        System.out.println(actualResponse);
+        System.out.println(gc.getLinkedIn());
+        System.out.println(gc.getInstructor());
+
+        //print all the courseTitles names in webAutomation
+        String[] courseTitles = {"Selenium Webdriver Java","Cypress","Protractor"};
+        ArrayList<String> a = new ArrayList<String>();
+        List<WebAutomation> webAutomationCourses = gc.getCourses().getWebAutomation();
+
+        for(int i=0;i<webAutomationCourses.size();i++){
+            a.add(webAutomationCourses.get(i).getCourseTitle());
+        }
+
+        List<String> expectedList = Arrays.asList(courseTitles);
+
+        Assert.assertTrue(a.equals(expectedList));
+
+
 
     }
 }
